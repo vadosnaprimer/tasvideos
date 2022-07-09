@@ -204,8 +204,18 @@ public static class SubmissionExtensions
 		return query.Where(s => s.Status == SubmissionStatus.Rejected);
 	}
 
+	public static IQueryable<Submission> ThatArePlayground(this IQueryable<Submission> query)
+	{
+		return query.Where(s => s.Status == SubmissionStatus.Playground);
+	}
+
 	public static IQueryable<Submission> ThatHaveBeenJudgedBy(this IQueryable<Submission> query, string userName)
 	{
 		return query.Where(s => s.JudgeId.HasValue && s.Judge!.UserName == userName);
+	}
+
+	public static IQueryable<Submission> ForBranch(this IQueryable<Submission> query, string branch)
+	{
+		return query.Where(s => s.Branch == branch);
 	}
 }

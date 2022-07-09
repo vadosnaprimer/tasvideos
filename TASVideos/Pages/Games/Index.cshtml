@@ -95,6 +95,46 @@
 	</div>
 	<small condition="@Model.Movies.Any(m => string.IsNullOrWhiteSpace(m.Branch))" class="text-muted">The baseline tab shows the default movie beating the game as fast as possible without any special conditions.</small>
 </div>
+<div condition="Model.PlaygroundBranches.Any()">
+	<hr style="clear: right;"/>
+	<h3>Playground</h3>
+	<div class="">
+		<ul class="nav nav-tabs" role="tablist">
+			@foreach (var branch in Model.PlaygroundBranches)
+			{
+				var branchName = branch.First().Branch;
+				<li class="nav-item">
+					<a class="nav-link@(branch==Model.PlaygroundBranches.First() ? " active" : "")@(string.IsNullOrWhiteSpace(branchName) ? "" : " fw-bold")" href="#tab-@(branchName)" data-bs-toggle="tab">@(string.IsNullOrWhiteSpace(branchName) ? "(baseline)" : $@"""{branchName}""")</a>
+				</li>
+			}
+		</ul>
+	</div>
+	<div class="tab-content">
+		@foreach (var branch in Model.PlaygroundBranches)
+		{
+			<div id="tab-@(branch)" class="tab-pane@(branch==Model.PlaygroundBranches.First() ? " active" : " fade")">
+				<div class="table-container">
+					<table class="table table-striped">
+						<tr>
+							<th>Date</th>
+							<th>Submission</th>
+						</tr>
+						@foreach (var submission in branch)
+						{
+							<tr>
+								<sub-link id="submission.Id">@submission.Title</sub-link>
+							</tr>
+							<td>
+								<timezone-convert asp-for="@submission.Submitted" date-only="true" />
+							</td>
+						}
+					</table>
+				</div>
+			</div>
+		}
+	</div>
+	<small condition="@Model.PlaygroundBranches.Any(m => string.IsNullOrWhiteSpace(m.First().Branch))" class="text-muted">The baseline tab shows the default movie beating the game as fast as possible without any special conditions.</small>
+</div>
 <hr />
 <row>
 	<column md="6">

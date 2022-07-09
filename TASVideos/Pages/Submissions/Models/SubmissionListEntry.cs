@@ -51,6 +51,9 @@ public class SubmissionListEntry : ITimeable, ISubmissionDisplay
 
 	[TableIgnore]
 	public string? IntendedClass { get; set; }
+
+	[TableIgnore]
+	public string? Title { get; set; }
 }
 
 public class SubmissionPageOf<T> : PageOf<T>

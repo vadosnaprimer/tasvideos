@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TASVideos.Data;
+using TASVideos.Data.Entity;
 using TASVideos.Pages.Games.Models;
+using TASVideos.Pages.Submissions.Models;
 using TASVideos.ViewComponents;
 
 namespace TASVideos.Pages.Games;
@@ -25,6 +27,8 @@ public class IndexModel : BasePageModel
 	public GameDisplayModel Game { get; set; } = new();
 
 	public IEnumerable<MiniMovieModel> Movies { get; set; } = new List<MiniMovieModel>();
+
+	public List<List<SubmissionListEntry>> PlaygroundBranches { get; set; } = new List<List<SubmissionListEntry>>();
 
 	public async Task<IActionResult> OnGet()
 	{
@@ -50,6 +54,22 @@ public class IndexModel : BasePageModel
 			.ThenBy(p => p.Frames)
 			.ToMiniMovieModel()
 			.ToListAsync();
+
+		var submissions = _db.Submissions
+			.Where(s => s.GameId == Game.Id)
+			.ThatArePlayground();
+
+		var branches = submissions
+			.Select(s => s.Branch)
+			.Distinct();
+
+		foreach (var branch in branches)
+		{
+			PlaygroundBranches.Add(submissions
+				.ForBranch(branch ?? "")
+				.ToSubListEntry()
+				.ToList());
+		}
 
 		return Page();
 	}

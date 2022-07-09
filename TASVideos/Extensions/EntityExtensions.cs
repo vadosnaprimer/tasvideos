@@ -156,7 +156,8 @@ public static class EntityExtensions
 				Status = s.Status,
 				Judge = s.Judge != null ? s.Judge.UserName : null,
 				Publisher = s.Publisher != null ? s.Publisher.UserName : null,
-				IntendedClass = s.IntendedClass != null ? s.IntendedClass.Name : null
+				IntendedClass = s.IntendedClass != null ? s.IntendedClass.Name : null,
+				Title = s.Title
 			});
 	}
 

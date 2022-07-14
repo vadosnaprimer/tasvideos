@@ -95,7 +95,7 @@
 			}
 		},
 		{
-			"name": "TASVideos (Migrate)",
+			"name": "TASVideos (Migrate Sample Data)",
 			"type": "coreclr",
 			"request": "launch",
 			"preLaunchTask": "build",
